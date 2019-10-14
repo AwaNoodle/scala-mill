@@ -1,17 +1,16 @@
 #
 # Scala and Mill Dockerfile
 #
-# https://github.com/nightscape/scala-mill
+# Forked from https://github.com/nightscape/scala-mill
 #
 
-# Pull base image
 FROM openjdk:8u181
+LABEL maintainer=https://github.com/awanoodle
+LABEL source=https://github.com/nightscape/scala-mill
 
-# Env variables
-ENV SCALA_VERSION 2.12.7
-ENV MILL_VERSION 0.3.2
+ARG scala_version=2.12.10
+ARG mill_version=0.5.1
 
-# Define working directory
 WORKDIR /root
 
 # Scala expects this file
@@ -20,13 +19,13 @@ RUN touch /usr/lib/jvm/java-8-openjdk-amd64/release
 # Install Scala
 ## Piping curl directly in tar
 RUN \
-  curl -fsL https://downloads.typesafe.com/scala/$SCALA_VERSION/scala-$SCALA_VERSION.tgz | tar xfz - -C /root/ && \
+  curl -fsL https://downloads.typesafe.com/scala/${scala_version}/scala-${scala_version}.tgz | tar xfz - -C /root/ && \
   echo >> /root/.bashrc && \
-  echo "export PATH=~/scala-$SCALA_VERSION/bin:$PATH" >> /root/.bashrc
+  echo "export PATH=~/scala-${scala_version}/bin:${PATH}" >> /root/.bashrc
 
 # Install mill
 RUN \
-  curl -L -o /usr/local/bin/mill https://github.com/lihaoyi/mill/releases/download/$MILL_VERSION/$MILL_VERSION && \
+  curl -L -o /usr/local/bin/mill https://github.com/lihaoyi/mill/releases/download/${mill_version}/${mill_version} && \
   chmod +x /usr/local/bin/mill && \
   touch build.sc && \
   mill -i resolve _ && \
