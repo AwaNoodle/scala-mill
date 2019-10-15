@@ -4,7 +4,7 @@
 # Forked from https://github.com/nightscape/scala-mill
 #
 
-FROM openjdk:8u181
+FROM openjdk:8u222-stretch
 LABEL maintainer=https://github.com/awanoodle
 LABEL source=https://github.com/nightscape/scala-mill
 
@@ -12,9 +12,6 @@ ARG scala_version=2.12.10
 ARG mill_version=0.5.1
 
 WORKDIR /root
-
-# Scala expects this file
-RUN touch /usr/lib/jvm/java-8-openjdk-amd64/release
 
 # Install Scala
 ## Piping curl directly in tar
@@ -30,3 +27,4 @@ RUN \
   touch build.sc && \
   mill -i resolve _ && \
   rm build.sc
+
